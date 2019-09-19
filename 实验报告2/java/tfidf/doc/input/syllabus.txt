@@ -1,0 +1,109 @@
+CS680: Compiler Optimization for High Performance Computing
+August 2016
+Instructor: Bin Ren Time: M/W 3:30 – 4:50pm
+Email: bren[at-sign]wm.edu Place: Tucker Hall 220
+Office: McGlothlin-Street Hall, 116
+Course Page:
+This course is managed by Blackboard system, and please check periodically for updates.
+Office Hours:
+M/W 5:00 – 6:00pm (After class) or by appointment.
+Important Date:
+add/drop deadline: Sept. 2; withdraw deadline: Oct. 21; final exam: Dec. 12 9:00-12:00
+Course Description:
+This topic course will explore the cutting edge research of improving both the performance and
+productivity by leveraging compiler optimization techniques in high performance computing area.
+First, it will introduce the basic and important notions in this area, such as compiler analysis,
+code transformation, code optimization, instruction parallelism, multicore parallelism, cache man-
+agement, modern parallel architectures, programming models and so on. Second, students need to
+present and criticize related papers from the course paper list given by the lecturer. These papers
+are either classic research work or from leading conferences in this field recently. Finally, all stu-
+dents are required to finish a course project, write a related report, present their project and take
+a final exam. The ultimate goal of this class is to prepare students with the necessary knowledge
+of conducting graduate level research in this area.
+Prerequisites:
+There is no specific prerequisite course for this research topic class, however, it will be helpful
+if you have a good understanding of basic/undergraduate level compiler, C programming and com-
+puter architecture. Please feel free to talk to the instructor, if you are not sure whether you have
+enough background knowledge to take this class.
+Tentative Course Outline:
+u Introduction to compiler
+u Control flow analysis
+u Data flow analysis
+u Compiler optimizations
+u Data locality analysis
+u Vectorization
+u GPU programming
+u Paper presentations
+u Project presentations
+page 1 of 3
+CS680: Compiler Optimization for HPC August, 2016
+Reference Books:
+NOTE: All textbooks are optional. All required contents are covered by our slides and papers.
+• Engineering a Compiler, Keith D. Cooper and Linda Torczon, 2nd Edition
+• Optimizing Compilers for Modern Architectures, Randy Allen and Ken Kennedy, 1st Edition
+• Compilers: Principles, Techniques, and Tools, Alfred V. Aho, Monica S. Lam, Ravi Sethi, and
+Jeffrey D. Ullman, 2nd Edition
+Grading Policy:
+• Class participation: 10%
+• Research paper presentation: 20%
+• Paper critiques and homeworks: 20%
+• Research project: 30% (Proposal: 10%, Report: 10%, Presentation: 10%)
+• Final exam: 20%
+• Extra credit: 10%
+Final grades:
+• 95% - 110% A;
+• 90% - 94% A−;
+• 85% - 89% B+;
+• 80% - 84% B;
+• 75% - 79% B−;
+• 70% - 74% C+, etc
+Class participation:
+For regular lectures, class participation is checked by random pop quizzes; and for presentations,
+all listeners are required to submit a brief evaluation to summarize the key points learned from the
+presentation, and problems with the presenting.
+Research paper presentation:
+Each student is expected to present two papers from the paper list provided by the instruc-
+tor. During the presentation, please be prepared to answer any questions from the instructor and
+other students. Each presentation should last around 45 minutes: 15 minutes for background and
+introduction, 20 minutes for design and implementation, 10 minutes for evaluation, conclusion and
+related works. Before presenting, the presenter is allowed to schedule a dry run with the instructor
+to improve her/his slides and presentation skills.
+Paper critiques and homework:
+There are two homework assignments related to the regular lectures, and each one takes up 4%
+of the total credit. There are four paper critiques for each student, and each one takes up 3% of
+the total credit. Please follow this format to write your critiques:
+• Summary: overall topic, main contributions, evaluation results
+• Overall pros. and cons.: novelty, significance, organization, writing style, technical soundness
+• Detailed concerns and questions
+page 2 of 3
+CS680: Compiler Optimization for HPC August, 2016
+These critiques are going to be discussed intensively after each presentation.
+Research project:
+Each student is expected to perform a semester-long research project. All projects need to be
+approved by the instructor. Please contact the instructor early to brainstorm potential project
+ideas. For each project, students are required to submit a proposal with at least two pages, and
+a final report with at least eight pages, which are in IEEE format. At the end of the semester,
+students need to present their report in class.
+Final exam:
+All contents in the final exam are covered by our slides and papers. The instructor will highlight
+the scope of final exam in the last class.
+Extra credit:
+An extra credit opportunity is available for students who would like to improve their final grade
+of this class.
+Late Policy:
+The homeworks and project related codes/documents are due by 11:59 pm on the due day.
+No exceptions will be made to this deadline: if you submit at 12:00 am, your submission will be
+considered to be late. The time stamp on the electronic submission will be used to determine the
+submission time. A reduction of 10% per day will be applied to late submissions. Submissions
+more than three days late will not be accepted. Paper presentation slides and critiques are due
+immediately before the presentation. Late submissions will not be accepted.
+Academic Accommodations:
+It is the policy of The College of William and Mary to accommodate students with disabilities
+and qualifying diagnosed conditions in accordance with federal and state laws. Any student who
+feels s/he may need an accommodation based on the impact of a learning, psychiatric, physical,
+or chronic health diagnosis should contact Student Accessibility Services staff at 757-221-2509 or
+at sas@wm.edu to determine if accommodations are warranted and to obtain an official letter of
+accommodation.
+Academic Honesty:
+Students are required to follow the Honor System of the College of William and Mary.
+page 3 of 3

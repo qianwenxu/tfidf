@@ -1,0 +1,716 @@
+An Improved Approximation Algorithm For
+Vertex Cover with Hard Capacities
+(Extended Abstract)
+Rajiv Gandhi1, Eran Halperin2, Samir Khuller3, Guy Kortsarz4, and
+Aravind Srinivasan5
+1 Department of Computer Science, University of Maryland, College Park, MD
+20742. Research supported by NSF Award CCR-9820965.
+E-mail: gandhi@cs.umd.edu.
+2 International Computer Science Institute, Berkeley, CA 94704 and Computer
+Science Division, University of California, berkeley, CA 94720. Supported in part by
+NSF grants CCR-9820951 and CCR-0121555 and DARPA cooperative agreement
+F30602-00-2-0601. E-mail: eran@cs.berkeley.edu.
+3 Department of Computer Science and Institute for Advanced Computer Studies,
+University of Maryland, College Park, MD 20742. Research supported by NSF Award
+CCR-9820965 and an NSF CAREER Award CCR-9501355.
+E-mail: samir@cs.umd.edu.
+4 Department of Computer Science, Rutgers University, Camden, NJ 08102.
+E-mail: guyk@camden.rutgers.edu.
+5 Department of Computer Science and Institute for Advanced Computer Studies,
+University of Maryland, College Park, MD 20742. Supported in part by NSF Award
+CCR-0208005. E-mail: srin@cs.umd.edu.
+Abstract. In this paper we study the capacitated vertex cover prob-
+lem, a generalization of the well-known vertex cover problem. Given a
+graph G = (V,E), the goal is to cover all the edges by picking a mini-
+mum cover using the vertices. When we pick a vertex, we can cover up
+to a pre-specified number of edges incident on this vertex (its capac-
+ity). The problem is clearly NP-hard as it generalizes the well-known
+vertex cover problem. Previously, 2-approximation algorithms were de-
+veloped with the assumption that multiple copies of a vertex may be
+chosen in the cover. If we are allowed to pick at most a given number of
+copies of each vertex, then the problem is significantly harder to solve.
+Chuzhoy and Naor (Proc. IEEE Symposium on Foundations of Com-
+puter Science, 481–489, 2002 ) have recently shown that the weighted
+version of this problem is at least as hard as set cover; they have also
+developed a 3-approximation algorithm for the unweighted version. We
+give a 2-approximation algorithm for the unweighted version, improving
+the Chuzhoy-Naor bound of 3 and matching (up to lower-order terms)
+the best approximation ratio known for the vertex cover problem.
+Key Words and Phrases: Approximation algorithms, capacitated covering,
+set cover, vertex cover, linear programming, randomized rounding.
+1 Introduction
+The capacitated vertex cover problem can be described as follows. LetG = (V,E)
+be an undirected graph with vertex set V and edge set E. Suppose that wv
+denotes the weight of vertex v and kv denotes the capacity of vertex v (we assume
+that kv is an integer). A capacitated vertex cover is a function that determines
+a value xv ∈ {0, 1, . . . , bv}, ∀v ∈ V such that there exists an orientation of the
+edges of G in which the number of edges directed into vertex v ∈ V is at most
+kvxv. (These edges are said to be covered by or assigned to v.) The weight of the
+cover is
+∑
+v∈V xvwv. The minimum capacitated vertex cover problem is
+that of computing a minimum weight capacitated cover. The problem generalizes
+the minimum weight vertex cover problem which can be obtained by setting
+kv = |V | − 1 for every v ∈ V . The main difference is that in vertex cover, by
+picking a node v in the cover we can cover all edges incident to v, and in this
+problem we can only cover a subset of at most kv edges incident to node v.
+Guha et al. [8] studied the version of the problem in which bv is unbounded.
+They obtain a 2-approximation algorithm using the primal-dual method. They
+also gave a 4-approximate solution using LP-rounding. Gandhi et al. [7] gave a
+2-approximate solution using LP-rounding for the same problem.
+The problem becomes significantly harder when bv is specified for each vertex.
+For arbitrary weights on the vertices the problem is at least as hard to approx-
+imate as the set cover problem for which it is known that an approximation
+guarantee of (1 − )lnn will imply that NP ⊆ DTIME[nlog logn]. For the case
+when wv = 1, for all v ∈ V , Chuzhoy and Naor [5] gave a nice 3-approximation
+algorithm for this problem in polynomial time. Their algorithm uses random-
+ized LP-rounding with alterations. In this paper, we modify the algorithm of
+Chuzhoy and Naor in two crucial ways to obtain a 2-approximate solution. This
+is in a sense the “best ratio” possible at the moment, as 2 is also the best ratio
+known for the simpler vertex-cover problem. We add a pre-processing step in
+which we make certain capacity-1 vertices ineffective by making their capacities
+0. We also modify their alteration step in an important way that helps us to
+bound the cost of the alteration step in a better way and changes the algorithm.
+Related work: The best-known approximation algorithms for the vertex cover
+problem achieve an approximation ratio of (2− o(1)) for arbitrary graphs [1, 10,
+11]. A nice overview of the work on this problem is presented in [13].
+The vertex cover is a special case of the set-cover problem that requires to
+select a minimum number (or minimum cost) collection of subsets that cover
+the entire universe. The set-cover problem with hard capacities generalizes the
+set-cover problem in that a set has a capacity bound on the number of elements
+it can cover. In a seminal paper Johnson [9], gave the first (greedy) logarithmic
+ratio approximation for the unweighted uncapacitated set cover problem. This
+was generalized by Chva´tal [3] to the weighted uncapacitated case, and further
+generalized by Dobson [6] to approximating with logarithmic ratio the integer
+linear program min c · x subject to Ax ≥ b with all the entries in A nonnega-
+tive. A much more general result is given by Wolsey [18], giving a logarithmic
+2
+ratio approximation algorithm for submodular cover problems. Both the vertex
+cover problem with hard capacities, and set cover problem with hard capaci-
+ties are an example of a submodular cover problem. Hence [18] gave the first
+nontrivial approximation for both problems. See also the work by Bar-Ilan et.
+al. [2], for a generalization of the method including, e.g., generalization of the
+set-cover problem with hard capacities problem, facility location problems under
+flow constraints and the 2−layered facility location problem (without triangle
+inequality) under hard capacity constrains.
+Indeed, a closely related problem to set cover with hard capacities, is facility
+location with hard capacities. In this problem, we are given a set of facilities F
+and a set of clients C. There is a cost function d : L→ F which defines the cost
+of assigning a client to a facility. Each facility f ∈ F has a cost wf , a bound
+bf denoting the number of available copies of f and capacity kf denoting the
+maximum number of clients that can be assigned to an open facility. Each client i
+has demand gi. The goal is to open facilities so that each client can be assigned to
+some open facility. The objective is to minimize the sum of cost of open facilities
+and the cost of assigning the clients to them. A logarithmic greedy approximation
+problem for the uncapacitated case appears in [12] and for the capacitated case
+and some generalizations in [2]. Slightly improved (still logarithmic) bounds for
+the uncapacitated case are given in [19] using randomized methods.
+There has been a lot of work on metric facility location (see [17] for details).
+For the metric facility location problem with hard capacities, Pa´l, Tardos and
+Wexler [16] gave a (9 + )-approximation algorithm using local search.
+Research has also been conducted on the multi-set multi-cover problem. In
+this problem, the input sets are actually multi-sets, i.e., an element can appear
+in a set more than once. The problem with unbounded set capacities can be
+defined as the following IP: min{wTx|Ax ≥ d, 0 ≤ x ≤ b, x ∈ Z}. The LP has
+an unbounded Integrality gap. Dobson [6] gave a greedy algorithm achieving a
+guarantee of H(max1≤j≤nAij). Recently, Carr et al. [4] gave a p-approximation
+algorithm, where p denotes the maximum number of variables in any constraint.
+Their algorithm is based on a stronger LP-relaxation. Kolliopoulos and Young
+[14] obtained an O(log n) approximation algorithm.
+Remark: We will solve the special case of the vertex cover problem in which at
+most one copy of each vertex can be used. As in [5], our algorithm can be easily
+extended to the general case where multiple copies of each vertex can be used.
+2 IP Formulation and Relaxation
+A linear integer program (IP) for the problem can be written as follows (as in
+[8]).
+In this formulation, yev = 1 if and only if the edge e ∈ E is covered by vertex
+v. Clearly, the values of x in a feasible solution correspond to a capacitated
+cover. While we do not really need the constraint xv ≥ yev v ∈ e ∈ E for the
+IP formulation, this constraint will play an important role in the relaxation. (In
+fact, without this constraint there is a large Integrality gap between the best
+3
+fractional and integral solutions). For any vertex v, let E(v) denote the set of
+edges incident on v.
+Minimize
+∑
+v xv
+yeu + yev = 1 e = {u, v} ∈ E,
+kvxv −
+∑
+e∈E(v)
+yev ≥ 0 v ∈ V,
+xv ≥ yev v ∈ e ∈ E,
+yev ∈ {0, 1} v ∈ e ∈ E,
+xv ∈ {0, 1} v ∈ V.
+(1)
+In the relaxation to a linear program, we restrict yev ≥ 0 and 0 ≤ xv ≤ 1.
+3 Algorithm
+Our algorithm differs from the Chuzhoy-Naor algorithm in the following two
+ways. We perform a pre-processing step (Step 1) in which we make some of
+the capacity-1 vertices ineffective by making their capacities 0. Our alteration
+step (Step 5) is also different than the alteration step used in the Chuzhoy-
+Naor algorithm. Both these changes are crucial to our analysis. Let (x′, y′) be a
+solution in which x′ is a binary vector and y′ is fractional. Once we have such a
+solution, we can convert it to a solution (x′, y′′) in which y′′ is integral (Step 6).
+1. Pre-Processing. Keep “removing” capacity 1 vertices (make their capacity
+0) from the graph until we have a graph in which removing any capacity 1
+vertex will result in an infeasible solution. Include the remaining capacity 1
+vertices in the cover (add the “xv = 1” constraint in the LP for each such
+vertex v). Checking whether a graph, G = (V,E), has a feasible solution
+or not can be done as follows. Let B = (A1, A2, F ) be a bipartite graph
+in which each node in A1 represents an edge in E and each vertex in A2
+represents a vertex in V . An edge (e, v) ∈ F iff in G, edge e is incident to
+vertex v. Construct a flow network in which the source is connected to all
+vertices in A1 and each vertex in A2 is connected to the sink. The capacities
+of the edges in F is 1. The capacities of the edges emanating from the source
+are all 1. The capacity of an edge from any node v ∈ A2 to the sink is kv.
+G has a feasible solution iff the maximum flow value from the source to the
+sink is |E|.
+2. LP Solution. Solve the LP relaxation (that has the additional constraint
+xv = 1 for each capacity-1 vertex v that survived the pre-processing step)
+optimally. To facilitate the discussion of the remainder of the algorithm let
+us introduce some notation.
+U = {u|xu ≥ 1/2}.
+U = V \ U .
+E′ = {(u, v)|u ∈ U, v ∈ U}.
+∀u ∈ V,E′(u) = E′ ∩ E(u) and du = |E′(u)|.
+∀u ∈ U, u = 1− xu, 0 ≤ u ≤ 1/2.
+4
+3. Partial Cover. Include all vertices of U in the cover, i.e., ∀u ∈ U, x′u = 1.
+Note that all capacity-1 vertices belong to U . For any edge e = (u, v) ∈ E\E′,
+set y′eu = yeu and y
+′
+ev = yev. The contribution of u ∈ U towards covering
+edge e = (u, v) ∈ E′(u) is at least y′eu = yeu/xu ≥ (1−yev)/(1−u). For each
+e = (u, v) ∈ E′(u), let hev = 1− (1− yev)/(1− u) = (yev − u)/(1− u). To
+cover all the edges in E′(u) fractionally, we are going to need an additional
+coverage of hu =
+∑
+e=(u,v)∈E′(u) hev. In the following steps we will get the
+necessary additional coverage from vertices in U . Note that there are no
+edges within U .
+4. Randomized Rounding. Round each vertex v ∈ U to 1 independently with
+probability 2xv. Let I be the set of vertices that are rounded to 1 in this
+step. For each edge e = (u, v) ∈ E′ such that v ∈ I, let y′ev = yev/xv be the
+contribution of v towards covering e. By constraint (1),
+∑
+e∈E(v) yev/xv =∑
+e∈E(v) y
+′
+ev ≤ kv.
+5. Alteration. Let P be the set of vertices in U that still need some help from
+vertices in U , i.e., P = {u ∈ U |
+∑
+e=(u,v),v∈I y
+′
+ev < hu}. In this step, we will
+choose a set of vertices I ′ ⊆ U\I, such that ∀u ∈ P,
+∑
+e=(u,v),v∈I∪I′ y
+′
+ev ≥ hu,
+where for each vertex v ∈ I ′, y′ev is set according to step (c) below. For each
+vertex u ∈ P , we define a set of vertices helper(u). Each vertex in helper(u)
+contributes towards hu. Each vertex in I ′ belongs to exactly one such set.
+Initially, I ′ ← ∅ and helper(u)← ∅,∀u ∈ P . We perform the following steps
+until P is empty.
+(a) Pick a vertex u ∈ P .
+(b) Consider any edge (u, v) such that v ∈ U\(I∪I ′). helper(u)← helper(u)∪
+{v}. I ′ ← I ′ ∪ {v}. Let P ′v = {w ∈ P |w 6= u, e
+′ = (w, v) ∈ E′}.
+(c) For each w ∈ P ′v and e
+′ = (w, v), set y′e′v = ye′v and set y
+′
+e′w = 1− y
+′
+e′v.
+Set y′ev, where e = (u, v), to be the minimum of 1 and the remaining
+capacity of v. Set y′eu = 1− y
+′
+ev.
+(d) For each vertex w ∈ P ′v, if
+∑
+e=(w,a),a∈I∪I′ y
+′
+ea ≥ hw remove w from P .
+For each edge f = (w, b) ∈ E′ such that b 6∈ I ∪ I ′, set y′fb = 0 and
+y′fw = 1.
+(e) Remove u from P iff
+∑
+e=(u,a),a∈I∪I′ y
+′
+ea ≥ hu.
+Once P is empty, we have a feasible solution (x′, y′) in which x′ is integral
+and y′ may be fractional.
+6. Integral Solution. At this point x′ is a binary vector but y′ is fractional.
+This can be converted to an integral solution using the integrality of flows
+property on a flow network. The flow network is exactly the same as the one
+constructed in Step 1 with the difference that the capacity of an edge going
+from a node representing v ∈ V , to the sink is kvx′v.
+4 Analysis
+In Step 5 of the algorithm we choose the set of vertices I ′ and include them as
+part of our cover. We have to account for the cost of these vertices. Note that for
+5
+each vertex v ∈ I ′ there is exactly one vertex u ∈ P , such that v ∈ helper(u). We
+will charge u the cost of adding v to our solution. Note that in the LP solution
+the cost of vertex u is xu = 1− u. In our solution, vertex u ∈ U pays for itself
+and for the vertices in helper(u). We will show that the total expected charge on
+u due to vertices in helper(u) is at most 1−2u. Thus, the total expected cost of
+vertex u is 2−2u = 2xu. Also, the total expected size of I is
+∑
+v∈U 2xv. Thus we
+obtain a 2-approximation in expectation, by using the linearity of expectation.
+Theorem 1. Let Cost be the random variable that represents the cost of our
+vertex cover, C. Then E[Cost] ≤ 2OPT .
+Our primary goal will be to show that for any u ∈ U , the total expected
+charge on u due to vertices in helper(u) is at most 1− 2u. Before doing so, we
+will first show that our preprocessing step (of removing capacity 1 vertices) is
+justifiable:
+Lemma 1. Let R be the set of vertices of capacity 1 removed from a graph Go
+in the pre-processing step (Step 1). Let Gn be the new graph that has the same
+vertices and edges as Go except that the capacities of the vertices in R is reduced
+to 0. Let OPT (Go) and OPT (Gn) represent the optimal solutions in Go and Gn
+respectively. Then OPT (Go) = OPT (Gn). This implies that the LP solution to
+Gn is a lower bound on OPT (Go).
+Proof. Let OPT (Go) be an optimal solution to Go that uses a minimum number
+of vertices from R. If OPT (Go) ∩ R = ∅ then the claim follows trivially. Now
+consider the case when OPT (Go) ∩ R 6= ∅. Let v ∈ OPT (Go) ∩ R. Construct a
+directed graph H having the same vertex set as Go. Include an edge (a, b) in H
+iff edge (a, b) in Go is covered by a in OPT (Go) and by b in OPT (Gn). H may
+contain some cycles. Since v has in-degree zero in H, v cannot be part of any
+cycle. Contract every cycle of H. Now consider a maximal path, Q, starting from
+v. Let w be the last vertex in the path. Note that w does not have any outgoing
+edges, otherwise Q is not maximal. Consider the solution OPT (Go) \ {v} ∪ {w}
+in which the edges of Q have the same assignment as in OPT (Gn). We will
+now show that this new assignment does not violate capacity constraints of any
+of the vertices. The only vertices that are affected are the vertices in Q. The
+assignment of edges to all other vertices remain the same as in OPT (Go). In H,
+since w has one incoming edge and no outgoing edges, w covers one more edge
+in OPT (Gn) than it covers in OPT (Go). Since w /∈ R, the capacity of w is the
+same in Go and in Gn. Thus w covers at most kw−1 edges in OPT (Go). Thus in
+OPT (Go), w has a spare capacity of at least 1 that it uses to cover its incoming
+edge in Q. Every other vertex whose covering is different than in OPT (Go) is
+an internal vertex of Q. Each such vertex uncovers one edge (outgoing edge in
+Q) and covers a new edge (incoming edge in Q), hence its capacity constraints
+are not affected. This cost of this solution is the same as OPT (Go) and it uses
+one fewer vertex from R, thus contradicting the assumption that OPT (Go) used
+minimum number of vertices from R.
+Lemma 2. Every vertex in U has capacity at least 2.
+6
+Proof. If any vertex v has capacity 1 then xv = 1 (Step 1). Hence, all capacity
+1 vertices belong to U .
+Lemma 3. Let e = (u, v) and v ∈ helper(u). Then y′ev = 1. In other words,
+vertex v contributes 1 towards hu.
+Proof. Since v ∈ helper(u), y′ev = min{1, kv −
+∑
+f∈E′(v)\{e} y
+′
+fv}. To prove our
+claim, we must show that kv −
+∑
+f∈E′(v)\{e} y
+′
+fv ≥ 1. L.H.S evaluates to kv −∑
+f∈E′(v)\{e} yfv ≥ kv−
+∑
+f∈E′(v) yfv = kv−
+∑
+f∈E(v) yfv. Using constraint (1),
+we get L.H.S ≥ kv − kvxv ≥ kv − kv/2 = kv/2 ≥ 1.
+Lemma 4. Each vertex u ∈ P is charged at most dhue by vertices in I ′, i.e.,
+|helper(u)| ≤ dhue.
+Remark: Observe that if xu = 1/2, we are done since E′(u) = ∅. Hence, when-
+ever we need to calculate the expected cost of a vertex u ∈ U , we can assume
+0 ≤ u < 1/2.
+Lemma 5. Let u ∈ U . Let Zu be the random variable that denotes the help
+received by vertex u in Step 4 of the algorithm, i.e., Zu =
+∑
+e=(u,v):v∈I yev/xv.
+Then µu = E[Zu] ≥ 2hu(1− u)/(1− 2u).
+Proof. Recall that hu =
+∑
+e=(u,v)∈E′(u)(yev − u)/(1− u) and du = |E
+′(u)|. By
+definition of expectation, we have
+µu =
+∑
+e=(u,v)∈E′(u)
+(yev/xv)2xv
+= 2
+∑
+e=(u,v)∈E′(u)
+yev (2)
+= 2(1− u)hu + 2duu
+= 2hu + 2u(du − hu) (3)
+Since µu ≤ du, we have du ≥ 2hu+2u(du−hu). This gives us du−hu ≥ hu/(1−
+2u). Combining this inequality with (3), we get µu ≥ 2hu + 2uhu/(1− 2u) =
+2hu(1− u)/(1− 2u).
+Notation: From now on, let exp(x) denote ex.
+Lemma 6. If Xu is the random variable denoting the charge on a vertex u ∈
+U due to vertices in I ′, then E[Xu] ≤
+∑bhuc
+i=0
+(
+exp(−δi)/(1− δi)(1−δi)
+)µu , for
+some δi ∈ [ 12(1−) +
+i(1−2)
+2hu(1−)
+, 1] and µu = E[Zu]. When δi = 1, we evaluate the
+summand in the limit as δi → 1: this limit is exp(−µu).
+7
+Proof. Note that Xu can be any integer between 0 and dhue. By definition of
+expectation, we have E[Xu] =
+∑dhue
+i=1 iPr [Xu = i] =
+∑bhuc
+i=0 Pr [Xu ≥ i+ 1] ≤∑bhuc
+i=0 Pr [Zu ≤ dhue − (i+ 1)]. Thus we get
+E[Xu] ≤
+bhuc∑
+i=0
+Pr [Zu ≤ hu − i] (4)
+Since Zu is a sum of independent random variables each lying in [0, 1], we get
+using the Chernoff-Hoeffding bound that
+Pr [Zu ≤ µu(1− δi)] ≤
+(
+exp(−δi)/(1− δi)
+(1−δi)
+)µu
+The value of δi can be obtained as follows.
+1− δi =
+hu − i
+µu
+(5)
+Combining (5) with Lemma 5, we get δi ≥ 12(1−u) +
+i(1−2u)
+2hu(1−u)
+.
+Lemma 7. For 0 ≤ δ < 1, the function f(δ) = 1/(1−δ)(1−δ) attains a maximum
+value of exp(1/e) at δ = 1− 1/e.
+Lemma 8. For any vertex u ∈ U , if hu ≥ 2 then E[Xu] ≤ 1− 2u.
+Proof. From Lemma 6 and Lemma 7, we get E[Xu] ≤
+∑bhuc
+i=0 (exp(1/e− δi))
+µu .
+From Lemma 6, we know that ∀i ≥ 0, δi ≥ 1/2. Hence, 1/e − δi is always
+negative. Also, µu is always positive. Hence, the summand is maximized when
+µu and δi are minimized. Thus, we get
+E[Xu] ≤
+bhuc∑
+i=0
+(
+exp
+(
+1
+e
+−
+hu + i(1− 2u)
+2hu(1− u)
+)) 2hu(1−u)
+1−2u
+=
+bhuc∑
+i=0
+exp(p− i)
+(
+where p =
+2hu(1− u)
+e(1− 2u)
+−
+hu
+1− 2u
+)
+≤
+e
+e− 1
+· exp(p) · (1− exp(−hu − 1)). (6)
+We will now show that f(hu) = exp(p)(1−exp(−hu−1) is a decreasing function
+of hu. f ′(hu) = exp(p)(
+2(1−u)
+e(1−2u)
+− 11−2u )− exp(p−hu−1)(
+2(1−u)
+e(1−2u)
+− 11−2u −1).
+The expression
+(
+2(1−u)
+e(1−2u)
+− 11−2u
+)
+is negative since 2(1 − u)/e < 1. Since the
+first term dominates the second term f ′(hu) is negative. Thus f(hu) is decreasing
+and is maximized when hu is minimized. When hu = 2,
+p =
+4(1− u)
+e(1− 2u)
+−
+2
+1− 2u
+=
+2
+e
+−
+K1
+1− 2u
+,
+8
+where K1 is the positive constant (2e − 2)/e. Thus, from (6), it is sufficient to
+show that
+∀ ∈ [0, 1/2), K2 · exp(−K1/(1− 2)) ≤ 1− 2,
+where K2 is the constant e
+2+e+1
+e2 · exp(2/e). Making the substitution ψ =
+1
+1−2
+and taking the natural logarithm on both sides, it suffices to show:
+∀ψ ≥ 1, − lnψ +K1ψ − lnK2 ≥ 0.
+The inequality holds for ψ = 1. Also, for ψ > 1, the function ψ 7→ − lnψ +
+K1ψ − lnK2 has derivative K1 − 1/ψ; since K1 = 2− 2/e is greater than 1, the
+function increases for ψ > 1, and so we are done.
+Lemma 9. For any vertex u ∈ U , if 0 < hu < 1 then E[Xu] ≤ 1− 2u.
+Proof. Recall that du = |E′(u)|. Consider the case when du = 1. Let e = (u, v) ∈
+E′(u). Thus, hu ≤ u ≤ yev ≤ xv. Thus, with a probability of 2xv ≥ 2u, v ∈ I
+and u receives the help hu. Hence, the probability with which u participates in
+Step 5, i.e., u ∈ P , is 1 − 2u. In that case, |helper(u)| ≤ 1. Hence, E[Xu] ≤
+1 − 2u. Now consider when du = 2. Let e1 = (u, v) and e2 = (u,w) be the
+edges in E′(u). Since µu = 2(ye1v + ye2w) ≥ 4u. From (3), we know that
+µu ≥ 2hu. Hence, either he1v ≥ hu or he2w ≥ hu. Without loss of generality,
+let he1v ≥ hu. Since xv ≥ u, the probability of u receiving help of hu in the
+randomized rounding step (Step 4) is at least 2u. Hence, u participates in Step
+5 (Alteration Step) of the algorithm with a probability of at most 2(1 − u).
+Thus, we get E[Xu] ≤ 1− 2u. For the remainder of the lemma we assume that
+du ≥ 3.
+From inequality (4), we know that E[Xu] ≤ Pr [Zu ≤ hu]. Recall that Zu is
+the random variable that represents the amount of help that u receives in Step 4
+(Randomized Rounding) of the algorithm. Let Zu =
+∑
+e=(u,v)∈E′(u) Zev, where
+Zev is the random variable that denotes the amount of help that v provides to
+u in Step 4 of the algorithm. Next suppose X is a random variable with mean
+µ and variance σ2; suppose a > 0. Then, the well-known Chebyshev’s inequality
+states that Pr [|X − µ| ≥ a] is at most σ2/a2. We will need stronger tail bounds
+than this, but only on X’s deviation below its mean. The Chebyshev-Cantelli
+inequality shows that
+Pr [X ≤ µ− a] ≤ σ2/(σ2 + a2). (7)
+Define
+yu =
+∑
+e=(u,v)∈E′(u) yev
+du
+,
+and note that
+u ≤ yu ≤ 1/2. (8)
+We will use (7) to bound Pr [Zu ≤ hu]. Thus, setting µu − a = hu and using (2)
+we get a = µu−hu = 2
+∑
+e=(u,v)∈E′(u) yev −
+∑
+e=(u,v)∈E′(u)(yev − u)/(1− u) =
+9
+2duyu − (duyu − duu)/(1− u). This gives us
+a = du
+(
+2yu −
+yu − u
+1− u
+)
+(9)
+Let σ2u and σ
+2
+ev denote the variance of the random variables Zu and Zev respec-
+tively. Since Zu is the sum of the independent random variables Zev, we get
+σ2u =
+∑
+e=(u,v)∈E′(u) σ
+2
+ev =
+∑
+e=(u,v)∈E′(u) E[Z
+2
+ev]−E[Zev]
+2. This gives us
+σ2u =
+∑
+e=(u,v)∈E′(u)
+2y2ev
+xv
+− 4y2ev (10)
+For a fixed a, the R.H.S. of (7) is maximized when σ2 is maximized. We know that
+u ≤ yev ≤ xv < 1/2. The R.H.S. of (10) is maximized when xv is minimized.
+Also, for a fixed value of
+∑
+e=u,v∈E′(u) yev,
+∑
+e=(u,v)∈E′(u) y
+2
+ev is minimized when
+yev = ye′v′ = yu, ∀e = (u, v) ∈ E′(u) and e′ = (u, v′) ∈ E′(u). Note that we
+are not changing the value of
+∑
+e=(u,v)∈E′(u) yev. Substituting yev = yu and
+xv = yev = yu in the above inequality, we get σ2u ≤
+∑
+e=(u,v)∈E′(u) 2yu(1 −
+2yu) ≤ 2duyu(1 − 2yu). Using (7), the value of a from (9), and the value of σ2u
+obtained above, we get E[Xu] ≤ Pr [Zu ≤ hu] ≤ σ2u/(σ
+2
+u + a
+2) ≤ (2duyu(1 −
+2yu))/(2duyu(1− 2yu) + d2u (2yu − (yu − u)/(1− u))
+2). This gives us
+E[Xu] ≤
+2yu(1− 2yu)
+2yu(1− 2yu) + 3
+(
+2yu −
+yu−u
+1−u
+)2 (11)
+We will analyze the cost by considering the following two cases.
+Case I:  > 3yu/4.
+We would like to upper-bound the value of (yu − u)/(1− u) in (11). For u ≤
+yu < 4u/3, we will calculate a value c ∈ [0, 1] such that (yu−u)/(1−u) ≤ cyu.
+c ≥ (yu − u)/(yu(1 − u)) = 1/(1 − u) − u/(yu(1 − u)) ≥ 1/(1 − u) −
+u/((4u/3)(1−u)) = 1/(1−u)−3/(4(1−u)) = 1/(4(1−u)) ≥ 1/(4(1−1/2)) =
+1/2. Thus, substituting the value of (yu − u)/(1 − u) as yu/2 in (11), we get
+E[Xu] ≤ (2yu(1−2yu))/(2yu(1−2yu)+3 (2yu − yu/2)
+2) = (2yu(1−2yu))/(2yu−
+4y2u + (27y
+2
+u/4)) ≤ (2yu(1− 2yu))/2yu = 1− 2yu.
+Case II:  ≤ 3yu/4.
+We want to show that E[Xu] ≤ 1− 2u. Thus, it is sufficient to show that R.H.S
+of (11) is at most 1− 2u which means that it is sufficient to show that
+2yu(1− 2yu)− 2yu(1− 2yu)(1− 2u) ≤ 3
+(
+2yu −
+yu − u
+1− u
+)2
+(1− 2u) (12)
+We will consider the L.H.S and R.H.S of (12) separately. L.H.S = 2yu(1−2yu)−
+2yu(1− 2yu)(1− 2u) = 2yu(1− 2yu)(2u) = 4uyu(1− 2yu). Since u ≤ 3yu/4,
+we get
+L.H.S ≤ 3y2u(1− 2yu) (13)
+10
+R.H.S evaluates to 3 (yu/(1− u) + u(1− 2yu)/(1− u))
+2 (1− 2u). Since yu <
+1/2, we get
+R.H.S ≥ 3y2u(1− 2u) (14)
+From (13) and (14) we conclude that L.H.S≤ R.H.S and E[Xu] ≤ 1− 2u.
+Lemma 10. For any vertex u ∈ U , if 1 ≤ hu < 2 then E[Xu] ≤ 1− 2u.
+Proof. We will use the notation du, µu, yu, σ2u etc. as in the proof of Lemma 9. As
+in that proof, we have σ2u ≤ 2duyu(1−2yu). Recall that hu = du(yu−u)/(1−u).
+Thus, by Chebyshev-Cantelli,
+E[Xu] ≤ Pr [Zu ≤ hu − 1] + Pr [Zu ≤ hu]
+≤
+2duyu(1− 2yu)
+2duyu(1− 2yu) + (µu − hu + 1)2
++
+2duyu(1− 2yu)
+2duyu(1− 2yu) + (µu − hu)2
+=
+2duyu(1− 2yu)
+2duyu(1− 2yu) + (2duyu −
+du(yu−u)
+1−u
++ 1)2
++
+2yu(1− 2yu)
+2yu(1− 2yu) + du(2yu −
+yu−u
+1−u
+)2
+(15)
+Now fix u and yu arbitrarily (subject to the constraints 0 ≤ u < yu ≤ 1/2), and
+consider an adversary who wishes to maximize (15) subject to the constraint that
+du is a real number for which du(yu−u)/(1−u) ≥ 1. It is then sufficient to show
+that the maximum value (achievable by the adversary) is at most 1−2u; we will
+do so now. It can be shown that (15) is maximized when du(yu−u)/(1−u) = 1.
+Making the substitution z = 2duyu, we make some observations. Since z =
+2yu(1− u)/(yu − u) where 0 ≤ u < yu, we have z ≥ 2; also, u =
+yu(z−2)
+z−2yu
+. So,
+to show that (15) is at most 1−2u, we need to show that
+2duyu(1−2yu)
+2duyu(1−2yu)+(2duyu)2
++
+2duyu(1−2yu)
+2duyu(1−2yu)+(2duyu−1)2
+≤ 1−2u; i.e.,
+1−2yu
+1−2yu+z
++ z(1−2yu)z(1−2yu)+(z−1)2 ≤ 1−
+2yu(z−2)
+z−2yu
+.
+That is, we want to show that
+z
+1− 2yu + z
+−
+z(1− 2yu)
+z(1− 2yu) + (z − 1)2
+≥
+2yu(z − 2)
+z − 2yu
+. (16)
+Substitute p = 1 − 2yu, and note that p ∈ [0, 1]. Simplifying (16), we want to
+show that z ·(z+p−1)·((z−1)2−p2) ≥ (1−p)·(z−2)·(z+p)·((z−1)2+pz). Since
+z ≥ 2 and 0 ≤ p ≤ 1, all the factors in this last inequality are non-negative; so, it
+suffices to show that z ≥ (1−p) ·(z+p), and (z+p−1) ·((z−1)2−p2) ≥ (z−2) ·
+((z− 1)2 + pz). The first inequality reduces to zp ≥ p(1− p), which is true since
+z ≥ 2 > 1−p. The second inequality reduces to −p3−p2(z−1)+p+(z−1)2 ≥ 0.
+For a fixed p, the derivative of the l.h.s. (w.r.t. z) is easily to seen to be non-
+negative for z ≥ 2. Thus, it suffices to check that −p3−p2(z−1)+p+(z−1)2 ≥ 0
+is non-negative when z = 2, which follows from the fact that p ∈ [0, 1].
+Acknowledgments. We thank Seffi Naor for helpful discussions. Thanks also
+to the ICALP referees for their useful comments.
+11
+References
+1. R. Bar-Yehuda and S. Even. A Local-Ratio Theorem for Approximating The
+Weighted Vertex Cover Problem. Annals of Discrete Mathematics, 25:27-45, 1985.
+2. J. Bar-Ilan, G. Kortsarz and D. Peleg. Generalized submodular cover problems
+and applications. Theoretical Computer Science, 250, pages 179-200, 2001.
+3. V. Chva´tal. A Greedy Heuristic for the Set Covering Problem. Mathematics of
+Operations Research, vol. 4, No 3, pages 233-235, 1979.
+4. R. D. Carr, L. K. Fleischer, V. J. Leung and C. A. Phillips. Strengthening Inte-
+grality Gaps For Capacitated Network Design and Covering Problems. In Proc. of
+the 11th ACM-SIAM Symposium on Discrete Algorithms, pages 106-115, 2000.
+5. J. Chuzhoy and J. Naor. Covering Problems with Hard Capacities. Proc. of the
+Forty-Third IEEE Symp. on Foundations of Computer Science, 481-489, 2002.
+6. G. Dobson. Worst Case Analysis of Greedy Heuristics For Integer Programming
+with Non-Negative Data. Math. of Operations Research, 7(4):515-531, 1980.
+7. R. Gandhi, S. Khuller, S. Parthasarathy and A. Srinivasan. Dependent Rounding
+in Bipartite Graphs. In Proc. of the Forty-Third IEEE Symposium on Founda-
+tions of Computer Science, pages 323-332, 2002.
+8. S. Guha, R. Hassin, S. Khuller and E. Or. Capacitated Vertex Covering with
+Applications. Proc. ACM-SIAM Symp. on Discrete Algorithms, pages 858-865,
+2002.
+9. D. S. Johnson, Approximation algorithms for combinatorial problems. J. Com-
+puter and System Sciences, 9,pages 256-278, 1974.
+10. E. Halperin. Improved approximation algorithms for the vertex cover problem in
+graphs and hypergraphs. In Proceedings of the 11th Annual ACM-SIAM Sympo-
+sium on Discrete Algorithms, San Francisco, California, pages 329–337, 2000.
+11. D. S. Hochbaum. Approximation Algorithms for the Set Covering and Vertex
+Cover Problems. SIAM Journal on Computing, 11:555-556, 1982.
+12. D. S. Hochbaum. Heuristics for the fixed cost median problem. Mathematical
+Programming, 22:148-162, 1982.
+13. D. S. Hochbaum (editor). Approximation Algorithms for NP-hard Problems.
+PWS Publishing Company, 1996.
+14. S. G. Kolliopoulos and N. E. Young. Tight Approximation Results for General
+Covering Integer Programs. In Proc. of the Forty-Second Annual Symposium on
+Foundations of Computer Science, pages 522-528, 2001.
+15. L. Lova´sz, On the ratio of optimal integral and fractional covers. Discrete Math.,
+13, pages 383-390, 1975.
+16. M. Pa´l, E´. Tardos and T. Wexler. Facility Location with Nonuniform Hard Ca-
+pacities. In Proc. Forty-Second Annual Symposium on Foundations of Computer
+Science, 329-338, 2001.
+17. V. Vazirani. Approximation Algorithms. Springer-Verlag, 2001.
+18. L. A. Wolsey. An analysis of the greedy algorithm for the submodular set covering
+problem. Combinatorica, 2:385–393, 1982.
+19. N. E. Young. K-medians, facility location, and the Chernoff-Wald bound. ACM-
+SIAM Symposium on Discrete Algorithms, pages 86-95, 2000.
+12

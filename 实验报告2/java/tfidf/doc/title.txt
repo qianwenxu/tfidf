@@ -1,0 +1,11 @@
+A Block QR Algorithm and the Singular Value Decomposition
+Advances in Articial Intelligence
+improvedapproximation03
+Lecture Notes in Artificial Intelligence
+phyml
+Relations in GUHA style data mining
+syllabus
+Text Categorization Using Automatically Acquired Domain Ontology
+tinyos
+United States Patent office
+VERY DEEP CONVOLUTIONAL

@@ -1,0 +1,53 @@
+Advances in Arti®cial Intelligence
+Special Issue on
+Deep Learning Methods and Applications
+CALL FOR PAPERS
+Deep Learning Methods and Applications provide an overview of general deep
+learning methodology and its applications to a variety of signal and information
+processing tasks. It is a new area of Machine Learning research, which has been
+introduced with the objective of moving Machine Learning closer to one of its
+original goals: Articial Intelligence. Deep Learning is about learningmultiple levels
+of representation and abstraction that help to make sense of data such as images,
+sound, and text.
+e literature on deep learning is vast, mostly coming from the machine learning
+community.e signal processing community embraced deep learning only within
+the past four years or so (starting around end of 2009) and themomentum is growing
+fast ever since.
+Potential topics include, but are not limited to:
+Pattern Recognition and Machine Learning
+Deep learning representation (unsupervised, semisupervised, and
+supervised)
+Optimization for representation learning
+Deep learning for big data
+Sparse modeling and hierarchical models
+Deep learning algorithms for 2D and 3D visual data representation and
+analysis
+Distributed computing, GPUs, and new hardware for deep learning
+Applications in vision, audio, speech, and natural language processing,
+robotics, and neuroscience with deep architectures
+Virtual and augmented reality application
+Big Data application
+Neuromorphic platforms
+Authors can submit their manuscripts via the Manuscript Tracking System at
+http://mts.hindawi.com/submit/journals/aai/dlme/.
+Lead Guest Editor
+Mourad Zaied, University of Gabès,
+Gabès, Tunisia
+mourad.zaied@ieee.org
+Guest Editors
+Hedi Tabia, University of
+Cergy-Pontoise, Cergy-Pontoise, France
+hedi.tabia@ensea.fr
+Fouad Slimane, École Polytechnique
+Fédérale de Lausanne, Lausanne,
+Switzerland
+fouad.slimane@unifr.ch
+Ridha Ejbali, Al Baha University, Al
+Baha, Saudi Arabia
+ridha_ejbali@ieee.org
+Manuscript Due
+Friday, 29 January 2016
+First Round of Reviews
+Friday, 22 April 2016
+Publication Date
+Friday, 17 June 2016
